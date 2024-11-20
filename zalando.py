@@ -188,16 +188,8 @@ import cv2
 img=cv2.imread('miImagen.png',cv2.IMREAD_GRAYSCALE)
 plt.imshow(img)
 
-
-
 img=tf.reshape(img, (28, 28))
 print(tf.Variable([img]))
 
 classifications = loaded_model.predict(tf.Variable([img]))
 print(classifications[0])
-
-
-
-
-
-
