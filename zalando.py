@@ -1,4 +1,4 @@
-'''
+"""
 Respuestas
 1)
 Cargamos los datos de fashion mnist de esta forma :
@@ -100,7 +100,7 @@ plt.imshow(img)
   el modelo . Ya que parece que tras buscar información hemos visto que las capas Densas, esperan
   datos de entrada unidimensionales, pero las imágenes de fashion MNIST son de (28,28)
   y la capa flatten de nuestro modelo transforma la matriz bidimensional en unidimensional.
-'''
+"""
 
 import tensorflow as tf
 import numpy as np
