@@ -120,6 +120,8 @@ import matplotlib.pyplot as plt
 import random
 
 from keras.src.callbacks import EarlyStopping
+
+from keras.src.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.utils.version_utils import callbacks
 
