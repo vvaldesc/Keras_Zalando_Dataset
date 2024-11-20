@@ -101,12 +101,40 @@ plt.imshow(img)
   datos de entrada unidimensionales, pero las imágenes de fashion MNIST son de (28,28)
   y la capa flatten de nuestro modelo transforma la matriz bidimensional en unidimensional.
 
+15) Para probar a entrenar la red con 5 capas finales cambio esta linea a tf.keras.layers.Dense(5, activation='softmax')
+    Para que el modelo pueda predecir una probabilidad para cada una de las 10 categorías de ropa.
+    La funcion softmax convierte las salidas en probabilidades que suman 1,
+    asignando una probabilidad a cada clase.
+    La clase con la mayor probabilidad será la predicción final del modelo.
 
+    Si tuviera una cantidad diferente a 10, por ejemplo 5, como el modelo tiene 10 categorias de ropa
+    , al modificar a 5 neuronas, solo tendria la capacidad para clasificar 5 categorias, por lo
+    que no podria predecir a partir de las sexta etiqueta. Al intentar predecir una etiqueta, 6 por ejemplo,
+    que existe en el conunto de datos pero no en el modelo de 5 clases, se lanza el error de que 6 esta
+    fuera del rango.
+
+16) Va a mejorar la capacidad de generalizacion del modelo, pero tambien puede hacerlo mas propenso al overfitting.
+    El numero de parametros aumenta, por lo que el modelo necesitara más tiempo para entrenarse debido a la mayor complejidad.
+    Si el numero de neuronas en la capa adicional es el correcto mejorara el rendimiento del modelo al aprender representaciones.
+
+17) El número de épocas en el entrenamiento de un modelo tiene un impacto clave en su rendimiento. Si se entrena durante demasiadas
+    épocas, el modelo puede llegar a sobreajustarse, es decir, aprender demasiado bien los datos de entrenamiento y perder la capacidad
+    de generalizar a datos nuevos. Esto puede hacer que el modelo tenga buenos resultados en los datos de entrenamiento, pero un
+    rendimiento peor en los datos de prueba. En cambio, si se entrenan pocas épocas, el modelo podría no aprender lo suficiente,
+    lo que se traduce en un subajuste, donde el rendimiento es bajo tanto en el conjunto de entrenamiento como en el de prueba.
+    Por eso, es importante encontrar un número de épocas adecuado para evitar estos dos problemas.
+
+18) Para ello realizo este cambio model.fit(X_train_normalized, y_train, epochs=15).
+    El modelo mejoro su precision en el conjunto de entrenamiento del 90.93% al 92.19% al
+    entrenar durante 15 epocas respecto a 10, y la perdida disminuyo de 0.2409 a 0.2049. Sin embargo,
+    la precision en el conjunto de prueba se mantuvo constante (88.07%), lo que sugiere
+    que el modelo no generalizo mejor a pesar de los avances en el entrenamiento.
+    Esto podria indicar que el modelo esta comenzando a sobreajustarse a los datos de entrenamiento.
 
 20) Eliminar la normalización de los datos puede afectar de manera negativa a como aprende nuestro modelo.
-Con los datos normalizados obtenemos un porcentaje de 88% y una pérdida de 0.30, sin embargo sin normalización el modelo obtiene
-perdida de 0.54 porcentaje 80%.
-Esto sucede por que los datos no están en un rango adecuado para que el modelo aprenda de manera eficiente.
+    Con los datos normalizados obtenemos un porcentaje de 88% y una pérdida de 0.30, sin embargo sin normalización el modelo obtiene
+    perdida de 0.54 porcentaje 80%.
+    Esto sucede por que los datos no están en un rango adecuado para que el modelo aprenda de manera eficiente.
 
 
 
