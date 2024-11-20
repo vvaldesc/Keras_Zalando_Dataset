@@ -100,14 +100,28 @@ plt.imshow(img)
   el modelo . Ya que parece que tras buscar información hemos visto que las capas Densas, esperan
   datos de entrada unidimensionales, pero las imágenes de fashion MNIST son de (28,28)
   y la capa flatten de nuestro modelo transforma la matriz bidimensional en unidimensional.
+
+
+
+20) Eliminar la normalización de los datos puede afectar de manera negativa a como aprende nuestro modelo.
+Con los datos normalizados obtenemos un porcentaje de 88% y una pérdida de 0.30, sin embargo sin normalización el modelo obtiene
+perdida de 0.54 porcentaje 80%.
+Esto sucede por que los datos no están en un rango adecuado para que el modelo aprenda de manera eficiente.
+
+
+
+
+
 '''
 
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-from sklearn.model_selection import train_test_split
 
+from keras.src.callbacks import EarlyStopping
+from sklearn.model_selection import train_test_split
+from tensorflow.python.keras.utils.version_utils import callbacks
 
 #a) Hacer una RNA y entrenarla
 #       (dividir el conjunto de entrenamiento y de test, escalar las características ...)
@@ -154,20 +168,35 @@ model = tf.keras.models.Sequential([
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 model.summary()
 
+early_stopping = EarlyStopping(
+    monitor='accuracy',  # Monitorizamos la precisión
+    mode='max',          # Buscamos el valor máximo de accuracy
+    patience=1,         # Número de épocas sin mejora antes de detener el entrenamiento
+    min_delta=0.01,      # La mínima mejora de la precisión para considerarlo una mejora
+    verbose=1,           # Para mostrar información durante el entrenamiento
+    baseline=0.80        # Valor de accuracy que queremos alcanzar (91%)
+)
+
+class_names = ['Camiseta', 'Pantalón', 'Jersey', 'Vestido', 'Abrigo', 'Sandalia', 'Camisa', 'Zapatilla', 'Bolso', 'Bota']
+x,idx = tf.unique(training_labels)
+for i in x:
+    print(class_names[i])
+
 print(y_train.shape)
 y_train_oneHot = tf.one_hot(y_train, depth=10)
 
 
-# model.fit(X_train_normalized, y_train, epochs=5)
+#model.fit(X_train_normalized, y_train, epochs=15)
+model.fit(X_train_normalized, y_train, epochs=5, callbacks=[early_stopping])
 # model.save('zalando_fashion_mnist_model.h5')
 # Load the model (for future use)
 
-loaded_model = tf.keras.models.load_model('zalando_fashion_mnist_model.h5')
+#loaded_model = tf.keras.models.load_model('zalando_fashion_mnist_model.h5')
 
-print(loaded_model.evaluate(X_test_normalized, y_test))
+#print(loaded_model.evaluate(X_test_normalized, y_test))
 
 
-classifications = loaded_model.predict(X_test_normalized)
+classifications = model.predict(X_test_normalized)
 plt.imshow(X_test[0])
 plt.show()
 print(classifications[0])
@@ -191,5 +220,5 @@ plt.imshow(img)
 img=tf.reshape(img, (28, 28))
 print(tf.Variable([img]))
 
-classifications = loaded_model.predict(tf.Variable([img]))
+classifications = model.predict(tf.Variable([img]))
 print(classifications[0])
