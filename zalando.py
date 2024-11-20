@@ -87,6 +87,19 @@ y la hemos cargado de la siguiente manerea :
 import cv2
 img=cv2.imread('miImagen.png',cv2.IMREAD_GRAYSCALE)
 plt.imshow(img)
+
+13) Al incrementar las neuronas de la capa densa a 512 y entrenar el mismo número de épocas = 5
+  obtenemos que el % de acierto se incrementa un 1% pasa de 88.6 a 89.6 y la pérdida se reduce
+  por ende , en la última época de 0.289 a 0.279
+
+  Incrementamos la capa oculta (La que sigue a nuestra capa flatten a 1024 neuronas)
+  respuesta : a) En nuestro caso el entrenamiento lleva más tiempo , es más preciso
+  pero casi insignificante la subida 89.9% de precisión y 0.27 de pérdida
+
+14) Si eliminamos la capa flatten , nos da un error de forma y no nos deja compilar ni entrenar
+  el modelo . Ya que parece que tras buscar información hemos visto que las capas Densas, esperan
+  datos de entrada unidimensionales, pero las imágenes de fashion MNIST son de (28,28)
+  y la capa flatten de nuestro modelo transforma la matriz bidimensional en unidimensional.
 '''
 
 import tensorflow as tf
