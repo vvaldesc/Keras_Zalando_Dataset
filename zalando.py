@@ -1,4 +1,4 @@
-'''
+"""
 Respuestas
 1)
 Cargamos los datos de fashion mnist de esta forma :
@@ -20,8 +20,6 @@ Mostramos los primeras 10 imágenes del dataset
 for i in range(10):
     plt.imshow(training_images[i])
     plt.show()
-
-4)
 
 5) Para normalizar los datos simplemente debemos de dividir los datos de test y train por 255 para escalalarlos (0,1)
 Sobre lo de la investigación de MinMaxScaler :
@@ -140,7 +138,7 @@ plt.imshow(img)
 
 
 
-'''
+"""
 
 import tensorflow as tf
 import numpy as np
@@ -215,15 +213,15 @@ for i in x:
 print(y_train.shape)
 y_train_oneHot = tf.one_hot(y_train, depth=10)
 
-
-#model.fit(X_train_normalized, y_train, epochs=15)
-model.fit(X_train_normalized, y_train, epochs=5, callbacks=[early_stopping])
-# model.save('zalando_fashion_mnist_model.h5')
 # Load the model (for future use)
+# model.fit(X_train_normalized, y_train, epochs=15)
+# model.fit(X_train_normalized, y_train, epochs=5)
+# model.save('zalando_fashion_mnist_model.h5')
 
-#loaded_model = tf.keras.models.load_model('zalando_fashion_mnist_model.h5')
+# Load the model (for future use)
+model = tf.keras.models.load_model('zalando_fashion_mnist_model.h5')
 
-#print(loaded_model.evaluate(X_test_normalized, y_test))
+print(model.evaluate(X_test_normalized, y_test))
 
 
 classifications = model.predict(X_test_normalized)
